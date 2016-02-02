@@ -1,0 +1,6 @@
+framework module DAAlertController {
+  umbrella header "DAAlertController-umbrella.h"
+
+  export *
+  module * { export * }
+}

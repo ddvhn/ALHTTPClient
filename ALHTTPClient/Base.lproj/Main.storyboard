@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,8 +16,53 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qxw-H6-9X2">
+                                <rect key="frame" x="282" y="45" width="37" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="37" id="3B4-1q-phE"/>
+                                    <constraint firstAttribute="height" constant="37" id="YTX-hT-7yN"/>
+                                </constraints>
+                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CDu-5w-Mdx">
+                                <rect key="frame" x="0.0" y="162" width="600" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="nR0-t8-NWr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="SEND"/>
+                                <connections>
+                                    <action selector="sendRequestTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QtU-zn-2d5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7EU-oD-Kjh">
+                                <rect key="frame" x="0.0" y="228" width="600" height="60"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="CANCEL"/>
+                                <connections>
+                                    <action selector="cancelRequestTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BNx-yS-YVv"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CDu-5w-Mdx" firstAttribute="top" secondItem="qxw-H6-9X2" secondAttribute="bottom" constant="80" id="5Lc-Bk-vXk"/>
+                            <constraint firstItem="qxw-H6-9X2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="25" id="9SJ-NT-1CA"/>
+                            <constraint firstItem="CDu-5w-Mdx" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="CCs-pZ-EQE"/>
+                            <constraint firstItem="7EU-oD-Kjh" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="FPe-W8-wdh"/>
+                            <constraint firstItem="7EU-oD-Kjh" firstAttribute="top" secondItem="CDu-5w-Mdx" secondAttribute="bottom" constant="6" id="T75-ga-FF6"/>
+                            <constraint firstItem="7EU-oD-Kjh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hHK-cQ-NBE"/>
+                            <constraint firstItem="7EU-oD-Kjh" firstAttribute="height" secondItem="CDu-5w-Mdx" secondAttribute="height" id="uGz-Pp-4Tn"/>
+                            <constraint firstItem="qxw-H6-9X2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y0f-HA-wAZ"/>
+                            <constraint firstItem="CDu-5w-Mdx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z9D-jy-gVN"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="_activityIndicator" destination="qxw-H6-9X2" id="doi-m8-tQi"/>
+                        <outlet property="_cancelButton" destination="7EU-oD-Kjh" id="bwj-an-Kv5"/>
+                        <outlet property="_sendButton" destination="CDu-5w-Mdx" id="YnW-KC-fGG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

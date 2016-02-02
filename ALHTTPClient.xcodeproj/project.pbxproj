@@ -13,9 +13,13 @@
 		8F56D8811C615ECA00FED06A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F56D87F1C615ECA00FED06A /* Main.storyboard */; };
 		8F56D8831C615ECA00FED06A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F56D8821C615ECA00FED06A /* Assets.xcassets */; };
 		8F56D8861C615ECA00FED06A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F56D8841C615ECA00FED06A /* LaunchScreen.storyboard */; };
+		8F56D8901C615ED900FED06A /* ALHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F56D88E1C615ED900FED06A /* ALHTTPClient.m */; };
+		9D470E460B5D105069008246 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DD3FC75D61DBFFFA40F4D4 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F4387E458CF0A9316689DA4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		20DD3FC75D61DBFFFA40F4D4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F56D8731C615ECA00FED06A /* ALHTTPClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ALHTTPClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F56D8771C615ECA00FED06A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8F56D8791C615ECA00FED06A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -26,6 +30,10 @@
 		8F56D8821C615ECA00FED06A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8F56D8851C615ECA00FED06A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8F56D8871C615ECA00FED06A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F56D88D1C615ED900FED06A /* ALHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALHTTPClient.h; sourceTree = "<group>"; };
+		8F56D88E1C615ED900FED06A /* ALHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALHTTPClient.m; sourceTree = "<group>"; };
+		8F56D88F1C615ED900FED06A /* ALHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALHTTPRequest.h; sourceTree = "<group>"; };
+		F35AC230C9FB8C487CD46C92 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +41,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D470E460B5D105069008246 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		88D180BCE024A8860961FDFE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				20DD3FC75D61DBFFFA40F4D4 /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8F56D86A1C615ECA00FED06A = {
 			isa = PBXGroup;
 			children = (
 				8F56D8751C615ECA00FED06A /* ALHTTPClient */,
 				8F56D8741C615ECA00FED06A /* Products */,
+				C7554E4B14D5570BB622EBF9 /* Pods */,
+				88D180BCE024A8860961FDFE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +77,7 @@
 		8F56D8751C615ECA00FED06A /* ALHTTPClient */ = {
 			isa = PBXGroup;
 			children = (
+				8F56D8911C615EDB00FED06A /* Client */,
 				8F56D8791C615ECA00FED06A /* AppDelegate.h */,
 				8F56D87A1C615ECA00FED06A /* AppDelegate.m */,
 				8F56D87C1C615ECA00FED06A /* ViewController.h */,
@@ -79,6 +99,25 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8F56D8911C615EDB00FED06A /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				8F56D88D1C615ED900FED06A /* ALHTTPClient.h */,
+				8F56D88E1C615ED900FED06A /* ALHTTPClient.m */,
+				8F56D88F1C615ED900FED06A /* ALHTTPRequest.h */,
+			);
+			name = Client;
+			sourceTree = "<group>";
+		};
+		C7554E4B14D5570BB622EBF9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F35AC230C9FB8C487CD46C92 /* Pods.debug.xcconfig */,
+				0F4387E458CF0A9316689DA4 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +125,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F56D88A1C615ECA00FED06A /* Build configuration list for PBXNativeTarget "ALHTTPClient" */;
 			buildPhases = (
+				4FEFBB5C9CC80C77C908DF77 /* Check Pods Manifest.lock */,
 				8F56D86F1C615ECA00FED06A /* Sources */,
 				8F56D8701C615ECA00FED06A /* Frameworks */,
 				8F56D8711C615ECA00FED06A /* Resources */,
+				270198BD7504C09B523D2DBE /* Embed Pods Frameworks */,
+				94A445B3D5755BF0D556CA75 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -144,12 +186,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		270198BD7504C09B523D2DBE /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4FEFBB5C9CC80C77C908DF77 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		94A445B3D5755BF0D556CA75 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8F56D86F1C615ECA00FED06A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8F56D87E1C615ECA00FED06A /* ViewController.m in Sources */,
+				8F56D8901C615ED900FED06A /* ALHTTPClient.m in Sources */,
 				8F56D87B1C615ECA00FED06A /* AppDelegate.m in Sources */,
 				8F56D8781C615ECA00FED06A /* main.m in Sources */,
 			);
@@ -259,9 +350,11 @@
 		};
 		8F56D88B1C615ECA00FED06A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F35AC230C9FB8C487CD46C92 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ALHTTPClient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ddov.ALHTTPClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -270,9 +363,11 @@
 		};
 		8F56D88C1C615ECA00FED06A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F4387E458CF0A9316689DA4 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ALHTTPClient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ddov.ALHTTPClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -298,6 +393,7 @@
 				8F56D88C1C615ECA00FED06A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
