@@ -1,53 +1,55 @@
 //
 //  ALRequestOperationManager.m
-//  ALPA
+//
 //
 //  Created by Denis Dovgan on 12/9/15.
-//  Copyright © 2015 Factorial Complexity. All rights reserved.
+//  Copyright © 2015. All rights reserved.
 //
 
 #import "ALHTTPClient.h"
+
+static const NSTimeInterval kDefaultTimeoutInterval = 30.f;
 
 @import AFNetworking;
 
 @class ALHTTPRequestOperation;
 
-typedef void(^AFNetworkingSuccessBlock)(AFHTTPRequestOperation * _Nonnull, id  _Nonnull);
-typedef void(^AFNetworkingFailureBlock)(AFHTTPRequestOperation * _Nullable, NSError * _Nonnull);
-typedef void(^ALOnRequestFinishedBlock)(id<ALHTTPRequest> request);
-typedef AFHTTPRequestOperation* (^ALRequestOnStartBlock)(AFNetworkingSuccessBlock, AFNetworkingFailureBlock);
+typedef void(^AFNetworkingSuccessBlock)(NSURLSessionDataTask * _Nonnull task, id  _Nonnull response);
+typedef void(^AFNetworkingFailureBlock)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error);
+typedef void(^ALHTTPRequestFinishBlock)(id<ALHTTPRequest> request);
+typedef NSURLSessionDataTask* (^ALRequestOnStartBlock)(AFNetworkingSuccessBlock successBlock, AFNetworkingFailureBlock failureBlock);
 
 #pragma mark -
-@interface ALHTTPRequestOperation : NSObject <ALHTTPRequest> {
+@interface ALHTTPRequestTask : NSObject <ALHTTPRequest> {
 	
 	ALRequestOnStartBlock _onStartBlock;
 	AFNetworkingSuccessBlock _successBlock;
 	AFNetworkingFailureBlock _failureBlock;
-	ALOnRequestFinishedBlock _onRequestFinishedBlock;
+	ALHTTPRequestFinishBlock _finishBlock;
 	
-	AFHTTPRequestOperation *_operation;
+	NSURLSessionDataTask *_task;
 	
 	BOOL _finished;
 }
 
-- (instancetype)initWithOnStartBlock:(ALRequestOnStartBlock)block successBlock:(AFNetworkingSuccessBlock)successBlock
-	failureBlock:(AFNetworkingFailureBlock)failureBlock onRequestFinishedBlock:(ALOnRequestFinishedBlock)onRequestFinishedBlock;
+- (instancetype)initWithOnStartBlock:(ALRequestOnStartBlock)onStartBlock successBlock:(AFNetworkingSuccessBlock)successBlock
+	failureBlock:(AFNetworkingFailureBlock)failureBlock finishBlock:(ALHTTPRequestFinishBlock)finishBlock;
 
 @end
 
-@implementation ALHTTPRequestOperation
+@implementation ALHTTPRequestTask
 
 #pragma mark - Init
 
-- (instancetype)initWithOnStartBlock:(ALRequestOnStartBlock)block successBlock:(AFNetworkingSuccessBlock)successBlock
-	failureBlock:(AFNetworkingFailureBlock)failureBlock onRequestFinishedBlock:(ALOnRequestFinishedBlock)onRequestFinishedBlock {
-
+- (instancetype)initWithOnStartBlock:(ALRequestOnStartBlock)onStartBlock successBlock:(AFNetworkingSuccessBlock)successBlock
+	failureBlock:(AFNetworkingFailureBlock)failureBlock finishBlock:(ALHTTPRequestFinishBlock)finishBlock {
+	
 	self = [super init];
 	if (self) {
-		_onStartBlock = block;
+		_onStartBlock = onStartBlock;
 		_successBlock = successBlock;
 		_failureBlock = failureBlock;
-		_onRequestFinishedBlock = onRequestFinishedBlock;
+		_finishBlock = finishBlock;
 		
 		_finished = NO;
 	}
@@ -58,7 +60,7 @@ typedef AFHTTPRequestOperation* (^ALRequestOnStartBlock)(AFNetworkingSuccessBloc
 - (void)dealloc {
 /*
 	NSLog(@"id <ALHTTPRequest> %@ deallocated", self);
-	*/
+*/
 }
 
 #pragma mark - Common Code
@@ -67,39 +69,41 @@ typedef AFHTTPRequestOperation* (^ALRequestOnStartBlock)(AFNetworkingSuccessBloc
 
 	BOOL canStart = _finished != YES && [self running] != YES;
 	if (canStart) {
-		_operation = _onStartBlock(_successBlock, _failureBlock);
-		
+	
 		__weak typeof(self) welf = self;
-		[_operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+		AFNetworkingSuccessBlock successBlock = ^void(NSURLSessionDataTask * _Nonnull task, id  _Nonnull response) {
 			__strong typeof(self) sself = welf;
 			if (sself != nil) {
 				[sself finish];
 				if (sself->_successBlock != nil) {
-					sself->_successBlock(operation, responseObject);
+					sself->_successBlock(task, response);
 				}
 			}
-		} failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+		};
+		
+		AFNetworkingFailureBlock failureBlock = ^void(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
 			__strong typeof(self) sself = welf;
 			if (sself != nil) {
 				[sself finish];
 				if (sself->_failureBlock != nil) {
-					sself->_failureBlock(operation, error);
+					sself->_failureBlock(task, error);
 				}
 			}
-		}];
+		};
+		_task = _onStartBlock(successBlock, failureBlock);
 	}
 }
 
 - (void)cancel {
 
 	if (!_finished && [self running]) {
-		[_operation cancel];
+		[_task cancel];
 	}
 }
 
 - (BOOL)running {
 
-	return _operation != nil;
+	return _task != nil;
 }
 
 - (BOOL)finished {
@@ -111,11 +115,11 @@ typedef AFHTTPRequestOperation* (^ALRequestOnStartBlock)(AFNetworkingSuccessBloc
 	
 	NSAssert([self running] == YES && _finished == NO, @"Unexpected state");
 	
-	_operation = nil;
+	_task = nil;
 	_finished = YES;
 	
-	if (_onRequestFinishedBlock != nil) {
-		_onRequestFinishedBlock(self);
+	if (_finishBlock != nil) {
+		_finishBlock(self);
 	}
 }
 
@@ -152,108 +156,113 @@ typedef AFHTTPRequestOperation* (^ALRequestOnStartBlock)(AFNetworkingSuccessBloc
 	self = [super init];
 	if (self) {
 		_requestsPool = [NSMutableArray new];
-		[self setupManager];
+		[self setup];
 	}
 	
 	return self;
 }
 
-- (void)setupManager {
+- (void)setup {
 
-	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	manager.responseSerializer = [AFJSONResponseSerializer serializer];
+	_timeout = kDefaultTimeoutInterval;
+}
+
+#pragma mark - Setters
+
+- (void)setTimeout:(NSTimeInterval)timeout {
+	
+	if (timeout > 0) {
+		_timeout = timeout;
+	}
 }
 
 #pragma mark - Common Code
 
 - (id <ALHTTPRequest>)requestWithUrl:(NSString *)url params:(NSDictionary *)params type:(ALRequestType)requestType
-	callback:(ALRequestOperationCallback)callback {
+	callback:(ALRequestCallback)callback {
 
 	return [self requestWithUrl:url headers:nil params:params type:requestType callback:callback];
 }
 
 - (id <ALHTTPRequest>)requestWithUrl:(NSString *)url headers:(NSDictionary *)headers params:(NSDictionary *)params
-	type:(ALRequestType)requestType callback:(ALRequestOperationCallback)callback {
+	type:(ALRequestType)requestType callback:(ALRequestCallback)callback {
 
 	return [self requestWithUrl:url headers:headers params:params type:requestType requestSerializerType:ALRequestSerializerTypeDEFAULT
 		callback:callback];
 }
 
 - (id <ALHTTPRequest>)requestWithUrl:(NSString *)url headers:(NSDictionary *)headers params:(NSDictionary *)params type:(ALRequestType)requestType
-	requestSerializerType:(ALRequestSerializerType)requestSerializerType callback:(ALRequestOperationCallback)callback {
+	requestSerializerType:(ALRequestSerializerType)requestSerializerType callback:(ALRequestCallback)callback {
 	
-	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-
 	AFHTTPRequestSerializer *requestSerializer = requestSerializerType == ALRequestSerializerTypeDEFAULT ?
 		[AFHTTPRequestSerializer serializer] : [AFJSONRequestSerializer serializer];
 	[headers enumerateKeysAndObjectsUsingBlock:^(NSString *_Nonnull key, NSString *_Nonnull value, BOOL * _Nonnull stop) {
 		[requestSerializer setValue:value forHTTPHeaderField:key];
 	}];
-	requestSerializer.timeoutInterval = 30.f;
+	requestSerializer.timeoutInterval = _timeout;
+	
+	AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+	manager.responseSerializer = [AFJSONResponseSerializer serializer];
 	manager.requestSerializer = requestSerializer;
 	
-	__weak __block id<ALHTTPRequest> weakRequestOperation = nil;
-
-	void (^requestSuccessBlock)(AFHTTPRequestOperation * _Nonnull, id  _Nonnull) = ^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-		callback(weakRequestOperation, responseObject, nil);
+	__weak __block id<ALHTTPRequest> weakRequest = nil;
+	AFNetworkingSuccessBlock commonRequestSuccessBlock = ^(NSURLSessionDataTask * _Nonnull operation, id _Nonnull responseObject) {
+		callback(weakRequest, responseObject, nil);
 	};
 	
-	void (^requestFailureBlock)(AFHTTPRequestOperation * _Nullable, NSError * _Nonnull) = ^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-		callback(weakRequestOperation, nil, error);
+	AFNetworkingFailureBlock commonRequestFailureBlock = ^(NSURLSessionDataTask * _Nullable operation, NSError * _Nonnull error) {
+		callback(weakRequest, nil, error);
 	};
 	
 	__weak typeof(self) welf = self;
-	ALOnRequestFinishedBlock onRequestFinishedBlock = ^(id <ALHTTPRequest> request) {
+	ALHTTPRequestFinishBlock commonRequestFinishBlock = ^void(id<ALHTTPRequest> request) {
 		__strong typeof(self) sself = welf;
 		if (sself != nil) {
 			[sself->_requestsPool removeObject:request];
 		}
 	};
-
-	id<ALHTTPRequest> requestOperation = nil;
+	
+	id<ALHTTPRequest> request = nil;
 	
 	switch (requestType) {
 	
 		case ALRequestTypePOST: {
 			
-			requestOperation = [[ALHTTPRequestOperation alloc]
-				initWithOnStartBlock:^AFHTTPRequestOperation *(AFNetworkingSuccessBlock aSuccessBlock, AFNetworkingFailureBlock aFailureBlock) {
-					return [manager POST:url parameters:params success:aSuccessBlock failure:aFailureBlock];
-			} successBlock:requestSuccessBlock failureBlock:requestFailureBlock onRequestFinishedBlock:onRequestFinishedBlock];
+			request = [[ALHTTPRequestTask alloc] initWithOnStartBlock:^NSURLSessionDataTask *(AFNetworkingSuccessBlock successBlock, AFNetworkingFailureBlock failureBlock) {
+				return [manager POST:url parameters:params progress:nil success:successBlock failure:failureBlock];
+			} successBlock:commonRequestSuccessBlock failureBlock:commonRequestFailureBlock finishBlock:commonRequestFinishBlock];
 		}
 			break;
 			
 		case ALRequestTypeGET: {
 			
-			requestOperation = [[ALHTTPRequestOperation alloc]
-				initWithOnStartBlock:^AFHTTPRequestOperation *(AFNetworkingSuccessBlock aSuccessBlock, AFNetworkingFailureBlock aFailureBlock) {
-					return [manager GET:url parameters:params success:aSuccessBlock failure:aFailureBlock];
-			} successBlock:requestSuccessBlock failureBlock:requestFailureBlock onRequestFinishedBlock:onRequestFinishedBlock];
+			request = [[ALHTTPRequestTask alloc] initWithOnStartBlock:^NSURLSessionDataTask *(AFNetworkingSuccessBlock successBlock, AFNetworkingFailureBlock failureBlock) {
+				return [manager GET:url parameters:params progress:nil success:successBlock failure:failureBlock];
+			} successBlock:commonRequestSuccessBlock failureBlock:commonRequestFailureBlock finishBlock:commonRequestFinishBlock];
 		}
 			break;
 			
 		case ALRequestTypeDELETE: {
 
-			requestOperation = [[ALHTTPRequestOperation alloc]
-				initWithOnStartBlock:^AFHTTPRequestOperation *(AFNetworkingSuccessBlock aSuccessBlock, AFNetworkingFailureBlock aFailureBlock) {
-					return [manager DELETE:url parameters:params success:aSuccessBlock failure:aFailureBlock];
-			} successBlock:requestSuccessBlock failureBlock:requestFailureBlock onRequestFinishedBlock:onRequestFinishedBlock];
+			request = [[ALHTTPRequestTask alloc] initWithOnStartBlock:^NSURLSessionDataTask *(AFNetworkingSuccessBlock successBlock, AFNetworkingFailureBlock failureBlock) {
+				return [manager DELETE:url parameters:params success:successBlock failure:failureBlock];
+			} successBlock:commonRequestSuccessBlock failureBlock:commonRequestFailureBlock finishBlock:commonRequestFinishBlock];
 		}
 			break;
-			
+
 		case ALRequestTypePUT: {
-			requestOperation = [[ALHTTPRequestOperation alloc]
-				initWithOnStartBlock:^AFHTTPRequestOperation *(AFNetworkingSuccessBlock aSuccessBlock, AFNetworkingFailureBlock aFailureBlock) {
-					return [manager PUT:url parameters:params success:aSuccessBlock failure:aFailureBlock];
-			} successBlock:requestSuccessBlock failureBlock:requestFailureBlock onRequestFinishedBlock:onRequestFinishedBlock];
+		
+			request = [[ALHTTPRequestTask alloc] initWithOnStartBlock:^NSURLSessionDataTask *(AFNetworkingSuccessBlock successBlock, AFNetworkingFailureBlock failureBlock) {
+				return [manager PUT:url parameters:params success:successBlock failure:failureBlock];
+			} successBlock:commonRequestSuccessBlock failureBlock:commonRequestFailureBlock finishBlock:commonRequestFinishBlock];
 		}
 			break;
-			
+
 		case ALRequestTypePATCH: {
-			requestOperation = [[ALHTTPRequestOperation alloc]
-				initWithOnStartBlock:^AFHTTPRequestOperation *(AFNetworkingSuccessBlock aSuccessBlock, AFNetworkingFailureBlock aFailureBlock) {
-					return [manager PATCH:url parameters:params success:aSuccessBlock failure:aFailureBlock];
-			} successBlock:requestSuccessBlock failureBlock:requestFailureBlock onRequestFinishedBlock:onRequestFinishedBlock];
+		
+			request = [[ALHTTPRequestTask alloc] initWithOnStartBlock:^NSURLSessionDataTask *(AFNetworkingSuccessBlock successBlock, AFNetworkingFailureBlock failureBlock) {
+				return [manager PUT:url parameters:params success:successBlock failure:failureBlock];
+			} successBlock:commonRequestSuccessBlock failureBlock:commonRequestFailureBlock finishBlock:commonRequestFinishBlock];
 		}
 			break;
 			
@@ -261,10 +270,10 @@ typedef AFHTTPRequestOperation* (^ALRequestOnStartBlock)(AFNetworkingSuccessBloc
 			break;
 	}
 	
-	weakRequestOperation = requestOperation;
-	[_requestsPool addObject:requestOperation];
-	
-	return requestOperation;
+	weakRequest = request;
+	[_requestsPool addObject:request];
+
+	return request;
 }
 
 @end

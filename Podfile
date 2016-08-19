@@ -2,6 +2,7 @@
 inhibit_all_warnings!
 use_frameworks!
 
-pod 'AFNetworking', ‘~> 2.6.3’
-pod 'DAAlertController'
-
+target "ALHTTPClient" do
+	pod 'AFNetworking'
+	pod 'DAAlertController'
+end

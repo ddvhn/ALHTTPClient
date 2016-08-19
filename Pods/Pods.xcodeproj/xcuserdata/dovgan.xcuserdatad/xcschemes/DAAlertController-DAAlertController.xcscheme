@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B94BC83AACE76096246B698E'
+               BlueprintIdentifier = '9C13132F74508A6E5539BFBF6EE8BD9E'
                BlueprintName = 'DAAlertController-DAAlertController'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'DAAlertController.bundle'>

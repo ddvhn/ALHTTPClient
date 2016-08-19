@@ -19,7 +19,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods.xcscheme</key>
+		<key>Pods-ALHTTPClient.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,12 +27,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>22301E672B198DD647EA000C15D6C1C7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4878C70B21CA37D7CB8A476BF986741B</key>
+		<key>1C3436CEA5C3D39764C5F54374794ECB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -43,6 +38,11 @@
 			<true/>
 		</dict>
 		<key>9C13132F74508A6E5539BFBF6EE8BD9E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FDF7F95FF5017D8FE2A7C9A61E6E0D37</key>
 		<dict>
 			<key>primary</key>
 			<true/>

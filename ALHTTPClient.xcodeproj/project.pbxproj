@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8330624527FE2CB7F051958C /* Pods_ALHTTPClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FBD845CE81C6E5C576327D /* Pods_ALHTTPClient.framework */; };
 		8F56D8781C615ECA00FED06A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F56D8771C615ECA00FED06A /* main.m */; };
 		8F56D87B1C615ECA00FED06A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F56D87A1C615ECA00FED06A /* AppDelegate.m */; };
 		8F56D87E1C615ECA00FED06A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F56D87D1C615ECA00FED06A /* ViewController.m */; };
@@ -14,12 +15,11 @@
 		8F56D8831C615ECA00FED06A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F56D8821C615ECA00FED06A /* Assets.xcassets */; };
 		8F56D8861C615ECA00FED06A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F56D8841C615ECA00FED06A /* LaunchScreen.storyboard */; };
 		8F56D8901C615ED900FED06A /* ALHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F56D88E1C615ED900FED06A /* ALHTTPClient.m */; };
-		9D470E460B5D105069008246 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DD3FC75D61DBFFFA40F4D4 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0F4387E458CF0A9316689DA4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		20DD3FC75D61DBFFFA40F4D4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		448B096329194FAA7BC9307E /* Pods-ALHTTPClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ALHTTPClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ALHTTPClient/Pods-ALHTTPClient.debug.xcconfig"; sourceTree = "<group>"; };
 		8F56D8731C615ECA00FED06A /* ALHTTPClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ALHTTPClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F56D8771C615ECA00FED06A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8F56D8791C615ECA00FED06A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -33,7 +33,8 @@
 		8F56D88D1C615ED900FED06A /* ALHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALHTTPClient.h; sourceTree = "<group>"; };
 		8F56D88E1C615ED900FED06A /* ALHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALHTTPClient.m; sourceTree = "<group>"; };
 		8F56D88F1C615ED900FED06A /* ALHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALHTTPRequest.h; sourceTree = "<group>"; };
-		F35AC230C9FB8C487CD46C92 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B2BFD86AF275538F73CC223A /* Pods-ALHTTPClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ALHTTPClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-ALHTTPClient/Pods-ALHTTPClient.release.xcconfig"; sourceTree = "<group>"; };
+		F3FBD845CE81C6E5C576327D /* Pods_ALHTTPClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ALHTTPClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D470E460B5D105069008246 /* Pods.framework in Frameworks */,
+				8330624527FE2CB7F051958C /* Pods_ALHTTPClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				20DD3FC75D61DBFFFA40F4D4 /* Pods.framework */,
+				F3FBD845CE81C6E5C576327D /* Pods_ALHTTPClient.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -61,8 +63,8 @@
 			children = (
 				8F56D8751C615ECA00FED06A /* ALHTTPClient */,
 				8F56D8741C615ECA00FED06A /* Products */,
-				C7554E4B14D5570BB622EBF9 /* Pods */,
 				88D180BCE024A8860961FDFE /* Frameworks */,
+				A35FE44C5FFDF0E007B8F459 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,11 +111,11 @@
 			name = Client;
 			sourceTree = "<group>";
 		};
-		C7554E4B14D5570BB622EBF9 /* Pods */ = {
+		A35FE44C5FFDF0E007B8F459 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F35AC230C9FB8C487CD46C92 /* Pods.debug.xcconfig */,
-				0F4387E458CF0A9316689DA4 /* Pods.release.xcconfig */,
+				448B096329194FAA7BC9307E /* Pods-ALHTTPClient.debug.xcconfig */,
+				B2BFD86AF275538F73CC223A /* Pods-ALHTTPClient.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -125,12 +127,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F56D88A1C615ECA00FED06A /* Build configuration list for PBXNativeTarget "ALHTTPClient" */;
 			buildPhases = (
-				4FEFBB5C9CC80C77C908DF77 /* Check Pods Manifest.lock */,
+				47BCC5C4A6D8007A45F1811F /* [CP] Check Pods Manifest.lock */,
 				8F56D86F1C615ECA00FED06A /* Sources */,
 				8F56D8701C615ECA00FED06A /* Frameworks */,
 				8F56D8711C615ECA00FED06A /* Resources */,
-				270198BD7504C09B523D2DBE /* Embed Pods Frameworks */,
-				94A445B3D5755BF0D556CA75 /* Copy Pods Resources */,
+				0AA162E03E69F80B7785D412 /* [CP] Embed Pods Frameworks */,
+				9DC18E15C6C01BD16AAB9CAB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -187,29 +189,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		270198BD7504C09B523D2DBE /* Embed Pods Frameworks */ = {
+		0AA162E03E69F80B7785D412 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ALHTTPClient/Pods-ALHTTPClient-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4FEFBB5C9CC80C77C908DF77 /* Check Pods Manifest.lock */ = {
+		47BCC5C4A6D8007A45F1811F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,19 +219,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		94A445B3D5755BF0D556CA75 /* Copy Pods Resources */ = {
+		9DC18E15C6C01BD16AAB9CAB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ALHTTPClient/Pods-ALHTTPClient-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -350,7 +352,7 @@
 		};
 		8F56D88B1C615ECA00FED06A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F35AC230C9FB8C487CD46C92 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 448B096329194FAA7BC9307E /* Pods-ALHTTPClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ALHTTPClient/Info.plist;
@@ -363,7 +365,7 @@
 		};
 		8F56D88C1C615ECA00FED06A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F4387E458CF0A9316689DA4 /* Pods.release.xcconfig */;
+			baseConfigurationReference = B2BFD86AF275538F73CC223A /* Pods-ALHTTPClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ALHTTPClient/Info.plist;
